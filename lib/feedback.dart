@@ -11,7 +11,7 @@ class Page extends StatefulWidget {
 }
 
 class PageState extends State<Page> {
-  final _formKey = GlobalKey<FormState>();
+  static final _formKey = GlobalKey<FormState>();
   final _feedbackContent = FeedbackContent();
   static final DateTime date = DateTime.now();
   static int day = date.weekday;
@@ -20,7 +20,7 @@ class PageState extends State<Page> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Column(
+    return ListView(
       children: <Widget>[
         Center(
           child: Text(
@@ -47,97 +47,68 @@ class PageState extends State<Page> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    flex: 2,
-                    child: CheckboxListTile(
-                      controlAffinity: ListTileControlAffinity.leading,
-                      title: const Text("Kall mat"),
-                      value: _feedbackContent.coldFood,
-                      onChanged: (bool value){
-                        setState(() {
-                          _feedbackContent.coldFood = value;
-                        });
-                      },
-                    ),
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: CheckboxListTile(
-                      controlAffinity: ListTileControlAffinity.leading,
-                      title: const Text("Äcklig mat"),
-                      value: _feedbackContent.disgustingFood,
-                      onChanged: (bool value){
-                        setState(() {
-                          _feedbackContent.disgustingFood = value;
-                        });
-                      },
-                    ),
-                  ),
-                ],
+              CheckboxListTile(
+                controlAffinity: ListTileControlAffinity.leading,
+                title: const Text("Kall mat"),
+                value: _feedbackContent.coldFood,
+                onChanged: (bool value){
+                  setState(() {
+                    _feedbackContent.coldFood = value;
+                  });
+                },
               ),
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    flex: 2,
-                    child: CheckboxListTile(
-                      controlAffinity: ListTileControlAffinity.leading,
-                      title: const Text("Kall mat"),
-                      value: _feedbackContent.noFood,
-                      onChanged: (bool value){
-                        setState(() {
-                          _feedbackContent.noFood = value;
-                        });
-                      },
-                    ),
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: CheckboxListTile(
-                      controlAffinity: ListTileControlAffinity.leading,
-                      title: const Text("Kall mat"),
-                      value: _feedbackContent.longQueue,
-                      onChanged: (bool value){
-                        setState(() {
-                          _feedbackContent.longQueue = value;
-                        });
-                      },
-                    ),
-                  ),
-                ],
+              CheckboxListTile(
+                controlAffinity: ListTileControlAffinity.leading,
+                title: const Text("Äcklig mat"),
+                value: _feedbackContent.disgustingFood,
+                onChanged: (bool value){
+                  setState(() {
+                    _feedbackContent.disgustingFood = value;
+                  });
+                },
+              ),
+              CheckboxListTile(
+                controlAffinity: ListTileControlAffinity.leading,
+                title: const Text("Kall mat"),
+                value: _feedbackContent.noFood,
+                onChanged: (bool value){
+                  setState(() {
+                    _feedbackContent.noFood = value;
+                  });
+                },
+              ),
+              CheckboxListTile(
+                controlAffinity: ListTileControlAffinity.leading,
+                title: const Text("Kall mat"),
+                value: _feedbackContent.longQueue,
+                onChanged: (bool value){
+                  setState(() {
+                    _feedbackContent.longQueue = value;
+                  });
+                },
               ),
 
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    flex: 2,
-                    child: CheckboxListTile(
-                      controlAffinity: ListTileControlAffinity.leading,
-                      title: const Text("Övrigt"),
-                      value: _feedbackContent.other,
-                      onChanged: (bool value){
-                        setState(() {
-                          _feedbackContent.other = value;
-                        });
-                      },
-                    ),
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 27, 0),
-                      child: TextFormField(
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Please enter some text';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                  ),
-                ],
+              CheckboxListTile(
+                controlAffinity: ListTileControlAffinity.leading,
+                title: const Text("Övrigt"),
+                value: _feedbackContent.other,
+                onChanged: (bool value){
+                  setState(() {
+                    _feedbackContent.other = value;
+                  });
+                },
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 27, 0),
+                child: TextFormField(
+                  autofocus: true,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                ),
               ),
 
             Column(
