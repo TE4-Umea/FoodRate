@@ -5,51 +5,50 @@ import 'models/menuContent.dart';
 class Page extends StatelessWidget{
 
   Widget build(BuildContext context){
-    return new Container(
-        child: new Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.fromLTRB(80, 5, 80, 5),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Center(
-                      child: Text(
-                        "Mattid",
-                        style: MenuTimeTextStyle,
+    return new Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.fromLTRB(80, 5, 80, 5),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Center(
+                        child: Text(
+                          "Mattid",
+                          style: MenuTimeTextStyle,
+                        ),
                       ),
-                    ),
-                    Center(
-                      child: Text(
-                        MenuContent.foodTime,
-                        style: MenuTitleTextStyle,
+                      Center(
+                        child: Text(
+                          MenuContent.foodTime,
+                          style: MenuTitleTextStyle,
 
-                      ),
-                    )
-                  ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-            new Card(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    food(MenuContent.mon),
-                    food(MenuContent.tue),
-                    food(MenuContent.wed),
-                    food(MenuContent.thu),
-                    food(MenuContent.fri)
-                  ],
+              new Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      food(MenuContent.mon),
+                      food(MenuContent.tue),
+                      food(MenuContent.wed),
+                      food(MenuContent.thu),
+                      food(MenuContent.fri)
+                    ],
+                  ),
                 ),
-              ),
-            )
-          ],
-        ));
+              )
+            ],
+          );
   }
   Widget food(day){
     return Column(

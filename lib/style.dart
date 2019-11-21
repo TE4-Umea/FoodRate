@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-const Color NTIblue = Color.fromARGB(255, 75, 0, 130);
+
+const Color NTIpurple = Color.fromARGB(255, 75, 0, 130);
+const Color NTIpink = Color.fromARGB(255, 221, 8, 133);
 
 const LargeTextSize = 26.0;
 const MediumTextSize= 20.0;
