@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:matapp/layout.dart';
 import 'style.dart';
 import 'models/feedbackContent.dart';
 import 'models/menuContent.dart';
-import 'layout.dart';
 
 class Page extends StatefulWidget {
   @override
@@ -24,10 +22,10 @@ class PageState extends State<Page> {
   int neutralFlex = 2;
   int sadFlex = 2;
 
-  final food = MenuContent.matsedel[day];
+  final food = MenuContent.matsedel[day-1];
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return new ListView(
         children: <Widget>[
           Center(
             child: Text(
@@ -171,157 +169,159 @@ class PageState extends State<Page> {
                                   });
                                 },
                               ),
-                            ],
-                          ),
-                          CheckboxListTile(
-                            activeColor: NTIpurple,
-                            controlAffinity: ListTileControlAffinity.leading,
-                            title: const Text(
-                              "Äcklig mat",
-                              style: Body1TextStyle,
-                            ),
-                            value: _feedbackContent.disgustingFood,
-                            onChanged: (bool value){
-                              setState(() {
-                                _feedbackContent.disgustingFood = value;
-                              });
-                            },
-                          ),
-                          CheckboxListTile(
-                            activeColor: NTIpurple,
-                            controlAffinity: ListTileControlAffinity.leading,
-                            title: const Text(
-                              "Slut mat",
-                              style: Body1TextStyle,
-                            ),
-                            value: _feedbackContent.noFood,
-                            onChanged: (bool value){
-                              setState(() {
-                                _feedbackContent.noFood = value;
-                              });
-                            },
-                          ),
-                          CheckboxListTile(
-                            activeColor: NTIpurple,
-                            controlAffinity: ListTileControlAffinity.leading,
-                            title: const Text(
-                              "Lång kö",
-                              style: Body1TextStyle,
-                            ),
-                            value: _feedbackContent.longQueue,
-                            onChanged: (bool value){
-                              setState(() {
-                                _feedbackContent.longQueue = value;
-                              });
-                            },
-                          ),
-                          CheckboxListTile(
-                            activeColor: NTIpurple,
-                            controlAffinity: ListTileControlAffinity.leading,
-                            title: const Text(
-                              "Matsedeln stämde inte",
-                              style: Body1TextStyle,
-                            ),
-                            value: _feedbackContent.wrongFood,
-                            onChanged: (bool value){
-                              setState(() {
-                                _feedbackContent.wrongFood = value;
-                              });
-                            },
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                flex: 2,
-                                child: CheckboxListTile(
-                                  activeColor: NTIpurple,
-                                  controlAffinity: ListTileControlAffinity.leading,
-                                  title: const Text(
-                                    "Övrigt",
-                                    style: Body1TextStyle,
-                                  ),
-                                  value: _feedbackContent.other,
-                                  onChanged: (bool value){
-                                    setState(() {
-                                      _feedbackContent.other = value;
-                                    });
-                                  },
+                              CheckboxListTile(
+                                activeColor: NTIpurple,
+                                controlAffinity: ListTileControlAffinity.leading,
+                                title: const Text(
+                                  "Äcklig mat",
+                                  style: Body1TextStyle,
                                 ),
+                                value: _feedbackContent.disgustingFood,
+                                onChanged: (bool value){
+                                  setState(() {
+                                    _feedbackContent.disgustingFood = value;
+                                  });
+                                },
                               ),
-                              Expanded(
-                                flex: 3,
-                                child: Visibility(
-                                  visible: _feedbackContent.other,
-                                  child: TextFormField(
-                                    decoration: const InputDecoration(
-                                      hintText: "Skriv här"
-                                    ),
-                                    validator: (value) {
-                                      if (value.isEmpty) {
-                                        return 'Please enter some text';
-                                      }
-                                      return null;
-                                    },
-                                  ),
+                              CheckboxListTile(
+                                activeColor: NTIpurple,
+                                controlAffinity: ListTileControlAffinity.leading,
+                                title: const Text(
+                                  "Slut mat",
+                                  style: Body1TextStyle,
                                 ),
+                                value: _feedbackContent.noFood,
+                                onChanged: (bool value){
+                                  setState(() {
+                                    _feedbackContent.noFood = value;
+                                  });
+                                },
                               ),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 30.0),
-                            child: Row(
+                              CheckboxListTile(
+                                activeColor: NTIpurple,
+                                controlAffinity: ListTileControlAffinity.leading,
+                                title: const Text(
+                                  "Lång kö",
+                                  style: Body1TextStyle,
+                                ),
+                                value: _feedbackContent.longQueue,
+                                onChanged: (bool value){
+                                  setState(() {
+                                    _feedbackContent.longQueue = value;
+                                  });
+                                },
+                              ),
+                              CheckboxListTile(
+                                activeColor: NTIpurple,
+                                controlAffinity: ListTileControlAffinity.leading,
+                                title: const Text(
+                                  "Matsedeln stämde inte",
+                                  style: Body1TextStyle,
+                                ),
+                                value: _feedbackContent.wrongFood,
+                                onChanged: (bool value){
+                                  setState(() {
+                                    _feedbackContent.wrongFood = value;
+                                  });
+                                },
+                              ),
+                              Row(
                                 children: <Widget>[
                                   Expanded(
-                                    flex: 3,
+                                    flex: 2,
                                     child: CheckboxListTile(
                                       activeColor: NTIpurple,
                                       controlAffinity: ListTileControlAffinity.leading,
                                       title: const Text(
-                                        "Sagt till personal",
+                                        "Övrigt",
                                         style: Body1TextStyle,
                                       ),
-                                      value: _feedbackContent.toldStaff,
+                                      value: _feedbackContent.other,
                                       onChanged: (bool value){
                                         setState(() {
-                                          _feedbackContent.toldStaff = value;
+                                          _feedbackContent.other = value;
                                         });
                                       },
                                     ),
                                   ),
                                   Expanded(
-                                    flex: 1,
-                                    child: Padding(
-                                      padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                                      child: RaisedButton(
-                                        onPressed: () {
-                                          // Validate returns true if the form is valid, or false
-                                          // otherwise.
-                                          if (_formKey.currentState.validate()) {
-                                            // If the form is valid, display a Snackbar.
-                                            Scaffold.of(context)
-                                                .showSnackBar(SnackBar(content: Text('Processing Data')));
-                                          }
-                                          //TODO: Function to send
-                                        },
-                                        child: Text(
-                                          'Skicka',
-                                          style: Body1TextStyle,
-
+                                    flex: 3,
+                                    child: Visibility(
+                                      visible: _feedbackContent.other,
+                                      child: TextFormField(
+                                        decoration: const InputDecoration(
+                                          hintText: "Skriv här"
                                         ),
+                                        validator: (value) {
+                                          if (value.isEmpty) {
+                                            return 'Please enter some text';
+                                          }
+                                          return null;
+                                        },
                                       ),
                                     ),
                                   ),
                                 ],
-                            ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 30.0),
+                                child: Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                        flex: 3,
+                                        child: CheckboxListTile(
+                                          activeColor: NTIpurple,
+                                          controlAffinity: ListTileControlAffinity.leading,
+                                          title: const Text(
+                                            "Sagt till personal",
+                                            style: Body1TextStyle,
+                                          ),
+                                          value: _feedbackContent.toldStaff,
+                                          onChanged: (bool value){
+                                            setState(() {
+                                              _feedbackContent.toldStaff = value;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: Padding(
+                                          padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                                          child: RaisedButton(
+                                            color: NTIpurple,
+                                            onPressed: () {
+                                              // Validate returns true if the form is valid, or false
+                                              // otherwise.
+                                              if (_formKey.currentState.validate()) {
+                                                // If the form is valid, display a Snackbar.
+                                                Scaffold.of(context)
+                                                    .showSnackBar(SnackBar(content: Text('Processing Data')));
+                                              }
+                                              //TODO: Save data locally
+                                              //TODO: Function to send
+                                              //TODO: Expansiontile setstate med sparad data
+                                            },
+                                            child: Text(
+                                              'Skicka',
+                                              style: SendTextStyle,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                ),
+                              ),
+                            ],
                           ),
                         ],
-                          ),
+                      ),
                     ),
                   ),
                 ),
               ],
-                ),
-              ),
+            ),
+          ),
         ],
     );
   }

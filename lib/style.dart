@@ -47,3 +47,9 @@ const MenuTimeTextStyle = TextStyle(
   fontSize: MediumTextSize,
   color: Colors.black,
 );
+const SendTextStyle = TextStyle(
+  fontFamily: FontNameDefault,
+  fontWeight: FontWeight.w300,
+  fontSize: BodyTextSize,
+  color: Colors.white,
+);
