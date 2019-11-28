@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'style.dart';
-import 'models/menuContent.dart';
+import 'package:http/http.dart';
+import '../style/style.dart';
+import '../models/menuContent.dart';
+import 'layout.dart';
+import 'package:matapp/models/post.dart';
 
 class Page extends StatelessWidget{
 
@@ -30,6 +33,21 @@ class Page extends StatelessWidget{
                       )
                     ],
                   ),
+                ),
+              ),
+              Center(
+                child: FutureBuilder<Post>(
+                  future: Layout().fetchPost(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Text(snapshot.data.title);
+                    } else if (snapshot.hasError) {
+                      return Text("${snapshot.error}");
+                    }
+
+                    // By default, show a loading spinner.
+                    return CircularProgressIndicator();
+                  },
                 ),
               ),
               new Card(

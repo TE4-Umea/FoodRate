@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'style.dart';
-import 'models/feedbackContent.dart';
-import 'models/menuContent.dart';
+import '../style/style.dart';
+import '../models/feedbackContent.dart';
+import '../models/menuContent.dart';
+import '../style/my_flutter_app_icons.dart' as CustomIcons;
 
 class Page extends StatefulWidget {
   @override
@@ -18,9 +19,12 @@ class PageState extends State<Page> {
   static int day = date.weekday;
   bool hasVoted = false;
   int mood = 0;
-  int happyFlex = 2;
-  int neutralFlex = 2;
-  int sadFlex = 2;
+
+  static final Color defaultColor = Color.fromRGBO(34, 34, 34, 1.0);
+  static final Color activeColor = Color.fromRGBO(221, 8, 133, 1.0);
+  Color happyColor = defaultColor;
+  Color neutralColor = defaultColor;
+  Color sadColor = defaultColor;
 
   final food = MenuContent.matsedel[day-1];
   @override
@@ -61,33 +65,36 @@ class PageState extends State<Page> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       Expanded(
-                        flex: happyFlex,
-                        child: FlatButton(
+                        flex: 2,
+                        child: IconButton(
                           focusColor: NTIpink,
                           onPressed: () {
                             setState(() {
                               if(mood != 1) {
                                 hasVoted = true;
                                 mood = 1;
-                                happyFlex = 3;
-                                neutralFlex = 2;
-                                sadFlex = 2;
+                                happyColor = activeColor;
+                                neutralColor = defaultColor;
+                                sadColor = defaultColor;
                               }else {
                                 hasVoted = false;
                                 mood = 0;
 
-                                happyFlex = 2;
-                                neutralFlex = 2;
-                                sadFlex = 2;
+                                happyColor = defaultColor;
+                                neutralColor = defaultColor;
+                                sadColor = defaultColor;
                               }
                             });
                           },
-                          child: Image.asset("assets/images/Glad.png"),
+                          icon:
+                          Icon(CustomIcons.MyFlutterApp.ledsen),
+                          iconSize: 90,
+                          color: happyColor
                         ),
                       ),
                       Expanded(
-                        flex: neutralFlex,
-                        child: FlatButton(
+                        flex: 2,
+                        child: IconButton(
                           focusColor: NTIpink,
                           onPressed: () {
                             setState(() {
@@ -95,25 +102,28 @@ class PageState extends State<Page> {
                                 hasVoted = true;
                                 mood = 2;
 
-                                happyFlex = 2;
-                                neutralFlex = 3;
-                                sadFlex = 2;
+                                happyColor = defaultColor;
+                                neutralColor = activeColor;
+                                sadColor = defaultColor;
                               }else {
                                 hasVoted = false;
                                 mood = 0;
 
-                                happyFlex = 2;
-                                neutralFlex = 2;
-                                sadFlex = 2;
+                                happyColor = defaultColor;
+                                neutralColor = defaultColor;
+                                sadColor = defaultColor;
                               }
                             });
                           },
-                          child: Image.asset("assets/images/Neutral.png"),
+                          icon:
+                          Icon(CustomIcons.MyFlutterApp.neutral),
+                          iconSize: 90,
+                          color: neutralColor,
                         ),
                       ),
                       Expanded(
-                        flex: sadFlex,
-                        child: FlatButton(
+                        flex: 2,
+                        child: IconButton(
                           focusColor: NTIpink,
                           onPressed: () {
                             setState(() {
@@ -121,20 +131,23 @@ class PageState extends State<Page> {
                                 hasVoted = true;
                                 mood = 3;
 
-                                happyFlex = 2;
-                                neutralFlex = 2;
-                                sadFlex = 3;
+                                happyColor = defaultColor;
+                                neutralColor = defaultColor;
+                                sadColor = activeColor;
                               }else {
                                 hasVoted = false;
                                 mood = 0;
 
-                                happyFlex = 2;
-                                neutralFlex = 2;
-                                sadFlex = 2;
+                                happyColor = defaultColor;
+                                neutralColor = defaultColor;
+                                sadColor = defaultColor;
                               }
                             });
                           },
-                          child: Image.asset("assets/images/Ledsen.png"),
+                            icon:
+                            Icon(CustomIcons.MyFlutterApp.glad),
+                            iconSize: 90,
+                            color: sadColor
                         ),
                       )
                     ],

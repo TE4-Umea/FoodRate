@@ -1,8 +1,8 @@
 
 
 import 'package:flutter/material.dart';
-import 'style.dart';
-import 'layout.dart';
+import 'style/style.dart';
+import 'screens/layout.dart';
 
 class App extends StatelessWidget{
   @override

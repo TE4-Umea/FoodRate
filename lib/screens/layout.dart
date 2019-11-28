@@ -1,7 +1,9 @@
-
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'Storage/storage.dart';
-import 'style.dart';
+import 'package:matapp/models/post.dart';
+import '../Storage/storage.dart';
+import '../style/style.dart';
 import 'menu.dart' as menu;
 import 'feedback.dart' as feedback;
 
@@ -24,12 +26,27 @@ class Layout extends State<MyTabs> with TickerProviderStateMixin {
     _controller = new TabController(vsync: this, length: myTabs.length);
     _myHandler = myTabs[0];
     _controller.addListener(_handleSelected);
-
+    final Future thisPost = fetchPost();
   }
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+
+
+  Future<Post> fetchPost() async {
+    final response =
+    await http.get('https://jsonplaceholder.typicode.com/posts/1');
+
+    if (response.statusCode == 200) {
+      // If server returns an OK response, parse the JSON.
+      return Post.fromJson(json.decode(response.body));
+    } else {
+      // If that response was not OK, throw an error.
+      throw Exception('Failed to load post');
+    }
   }
 
   void _handleSelected() {
