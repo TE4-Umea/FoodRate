@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:matapp/models/post.dart';
+import 'package:matapp/models/menuData.dart';
+import 'package:matapp/models/postData.dart';
 import '../Storage/storage.dart';
 import '../style/style.dart';
 import 'menu.dart' as menu;
@@ -34,15 +35,27 @@ class Layout extends State<MyTabs> with TickerProviderStateMixin {
     super.dispose();
   }
 
-
-
   Future<Post> fetchPost() async {
     final response =
-    await http.get('https://jsonplaceholder.typicode.com/posts/1');
+    await http.get('http://192.168.2.36:4000/rate_event?app_id=test_app_id&rating=2');
 
     if (response.statusCode == 200) {
       // If server returns an OK response, parse the JSON.
-      return Post.fromJson(json.decode(response.body));
+      Post parsedJson = Post.fromJson(json.decode(response.body));
+      return parsedJson;
+    } else {
+      // If that response was not OK, throw an error.
+      throw Exception('Failed to load post');
+    }
+  }
+  Future<MenuData> fetchMenu() async {
+    final response = await http.get('https://pizza.umea-ntig.se/fetch_food_menu_event');
+
+    if (response.statusCode == 200) {
+      final jsonResponse = json.decode(response.body);
+      // If server returns an OK response, parse the JSON.
+      MenuData data = MenuData.fromJson(jsonResponse[0]);
+      return data;
     } else {
       // If that response was not OK, throw an error.
       throw Exception('Failed to load post');
@@ -124,9 +137,9 @@ class Options extends StatefulWidget{
 
 class OptionsState extends State<Options>{
   static final _formKey = GlobalKey<FormState>();
-  static bool currentVegValue;
+  static bool vegFoodOption;
+  static bool specFood;
 
-  static bool currentValueNamed;
 
   @override
   void initState() {
@@ -143,7 +156,7 @@ class OptionsState extends State<Options>{
         });
       } else {
         setState(() {
-          currentVegValue = false;
+          vegFoodOption = false;
         });
       }
     });
@@ -151,7 +164,7 @@ class OptionsState extends State<Options>{
 
 
   updateValues(value) {
-    currentVegValue = value;
+    vegFoodOption = value;
   }
 
   @override
@@ -168,15 +181,26 @@ class OptionsState extends State<Options>{
                 children: <Widget>[
                   SwitchListTile(
                     title: Text("Vegetarian"),
-                    value: currentVegValue == null ? false : currentVegValue,
+                    value: vegFoodOption == null ? false : vegFoodOption,
                     onChanged: (bool optionValue) {
                       setState(() {
-                        currentVegValue = optionValue;
-                        updateValues(currentVegValue);
+                        vegFoodOption = optionValue;
+                        updateValues(vegFoodOption);
                       });
-                      Storage.set(widget.storageKey, OptionsState.currentVegValue);
+                      Storage.set(widget.storageKey, OptionsState.vegFoodOption);
                     },
-                  )
+                  ),
+                  SwitchListTile(
+                    title: Text("Annan Specialkost"),
+                    value: specFood == null ? false : specFood,
+                    onChanged: (bool optionValue) {
+                      setState(() {
+                        vegFoodOption = optionValue;
+                        updateValues(vegFoodOption);
+                      });
+                      Storage.set(widget.storageKey, OptionsState.vegFoodOption);
+                    },
+                  ),
                 ],
               ),
             ),

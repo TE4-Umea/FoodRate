@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:matapp/models/menuData.dart';
 import '../style/style.dart';
 import '../models/menuContent.dart';
 import 'layout.dart';
-import 'package:matapp/models/post.dart';
+import 'package:matapp/models/postData.dart';
 
 class Page extends StatelessWidget{
 
@@ -35,47 +36,46 @@ class Page extends StatelessWidget{
                   ),
                 ),
               ),
-              Center(
-                child: FutureBuilder<Post>(
-                  future: Layout().fetchPost(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return Text(snapshot.data.title);
-                    } else if (snapshot.hasError) {
-                      return Text("${snapshot.error}");
-                    }
-
-                    // By default, show a loading spinner.
-                    return CircularProgressIndicator();
-                  },
-                ),
-              ),
               new Card(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      food(MenuContent.mon),
-                      food(MenuContent.tue),
-                      food(MenuContent.wed),
-                      food(MenuContent.thu),
-                      food(MenuContent.fri)
-                    ],
-                  ),
+                  child: FutureBuilder<MenuData>(
+                    future: Layout().fetchMenu(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                      var data = snapshot.data;
+                      print(data);
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                        food(data, "Måndag")
+                        /*food(MenuContent.tue),
+                        food(MenuContent.wed),
+                        food(MenuContent.thu),
+                        food(MenuContent.fri)*/
+                        ],
+                      );
+                      } else if (snapshot.hasError) {
+                      return Text("${snapshot.error}");
+                      }
+
+                      // By default, show a loading spinner.
+                      return CircularProgressIndicator();
+                    },
+                ),
                 ),
               )
             ],
           );
   }
-  Widget food(day){
+  Widget food(menuData, day){
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
           child: Text(
-            day.day,
+            day,
             style: TitleTextStyle,
           ),
         ),
@@ -84,15 +84,15 @@ class Page extends StatelessWidget{
           child:
           Column(
             children: <Widget>[
-              dish(day, day.food),
-              dish(day, day.vegFood),
+              dish(menuData.food),
+              dish(menuData.vegFood),
             ],
           ),
         ),
       ],
     );
   }
-  Row dish(day, dish){
+  Row dish(dish){
     return new Row(
       children: <Widget>[
         Icon(Icons.fastfood),
