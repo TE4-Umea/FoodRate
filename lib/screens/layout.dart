@@ -7,6 +7,8 @@ import '../Storage/storage.dart';
 import '../style/style.dart';
 import 'menu.dart' as menu;
 import 'feedback.dart' as feedback;
+import 'package:device_id/device_id.dart';
+
 
 class MyTabs extends StatefulWidget {
   @override
@@ -22,19 +24,28 @@ class Layout extends State<MyTabs> with TickerProviderStateMixin {
   FancyTab _myHandler;
 
   @override
-  void initState() {
+  initState(){
     super.initState();
     _controller = new TabController(vsync: this, length: myTabs.length);
     _myHandler = myTabs[0];
     _controller.addListener(_handleSelected);
-    final Future thisPost = fetchPost();
+    isDeviceIdSet("device");
   }
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
   }
-
+  bool isDeviceIdSet(storageKey) {
+    Storage.isIdKeySet(storageKey).then((set) async {
+      if (set == false) {
+        String device_id = await DeviceId.getID;
+        Storage.setId(storageKey, device_id);
+      }
+      return set;
+    });
+    return false;
+  }
   Future<Post> fetchPost() async {
     final response =
     await http.get('http://192.168.2.36:4000/rate_event?app_id=test_app_id&rating=2');
@@ -48,8 +59,9 @@ class Layout extends State<MyTabs> with TickerProviderStateMixin {
       throw Exception('Failed to load post');
     }
   }
-  Future<MenuData> fetchMenu() async {
-    final response = await http.get('https://pizza.umea-ntig.se/fetch_food_menu_event');
+  Future<MenuData> fetchMenu(week) async {
+    var req = 'https://pizza.umea-ntig.se/fetch_menu?week=$week';
+    final response = await http.get(req);
 
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
@@ -58,7 +70,7 @@ class Layout extends State<MyTabs> with TickerProviderStateMixin {
       return data;
     } else {
       // If that response was not OK, throw an error.
-      throw Exception('Failed to load post');
+      throw Exception('Failed to load menu');
     }
   }
 
@@ -146,10 +158,8 @@ class OptionsState extends State<Options>{
     // TODO: implement initState
     super.initState();
     Storage.isKeySet(widget.storageKey).then((set) {
-      print(set);
       if (set == true) {
         Storage.get(widget.storageKey).then((value) {
-          print(value);
           setState(() {
             updateValues(value);
           });
@@ -157,6 +167,7 @@ class OptionsState extends State<Options>{
       } else {
         setState(() {
           vegFoodOption = false;
+          specFood = false;
         });
       }
     });
@@ -165,6 +176,7 @@ class OptionsState extends State<Options>{
 
   updateValues(value) {
     vegFoodOption = value;
+    specFood = value;
   }
 
   @override
@@ -195,10 +207,10 @@ class OptionsState extends State<Options>{
                     value: specFood == null ? false : specFood,
                     onChanged: (bool optionValue) {
                       setState(() {
-                        vegFoodOption = optionValue;
-                        updateValues(vegFoodOption);
+                        specFood = optionValue;
+                        updateValues(specFood);
                       });
-                      Storage.set(widget.storageKey, OptionsState.vegFoodOption);
+                      Storage.set(widget.storageKey, OptionsState.specFood);
                     },
                   ),
                 ],

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:matapp/Storage/storage.dart';
+import 'package:matapp/screens/layout.dart';
 import '../style/style.dart';
 import '../models/feedbackContent.dart';
 import '../models/menuContent.dart';
 import '../style/my_flutter_app_icons.dart' as CustomIcons;
+import 'package:http/http.dart' as http;
+
 
 class Page extends StatefulWidget {
   @override
@@ -303,17 +307,62 @@ class PageState extends State<Page> {
                                           padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
                                           child: RaisedButton(
                                             color: NTIpurple,
-                                            onPressed: () {
-                                              // Validate returns true if the form is valid, or false
+                                            onPressed: () async {
+
+                                              Future<String> findDevice() async{
+                                                String thisDevice;
+                                                await Storage.isIdKeySet("device")
+                                                    .then((set) async {
+                                                  print(set);
+                                                  if (set == true) {
+                                                    await Storage.getId("device")
+                                                        .then((value) {
+                                                      setState(() {
+                                                        print("value: $value");
+                                                        thisDevice = value;
+                                                        return thisDevice;
+                                                      });
+                                                    });
+                                                  }
+                                                  print("thisDevice: $thisDevice");
+                                                  return thisDevice;
+                                                  //TODO: Save data locally
+                                                  //TODO: Function to send
+                                                  //TODO: Expansiontile setstate med sparad data
+                                                });
+                                              }// Validate returns true if the form is valid, or false
                                               // otherwise.
                                               if (_formKey.currentState.validate()) {
                                                 // If the form is valid, display a Snackbar.
                                                 Scaffold.of(context)
                                                     .showSnackBar(SnackBar(content: Text('Processing Data')));
                                               }
-                                              //TODO: Save data locally
-                                              //TODO: Function to send
-                                              //TODO: Expansiontile setstate med sparad data
+
+
+                                              Future<http.Response> sendReq() async{
+                                                String thisDevice;
+                                                await Storage.isIdKeySet("device")
+                                                    .then((set) async {
+                                                  print(set);
+                                                  if (set == true) {
+                                                    await Storage.getId("device")
+                                                        .then((value) async{
+                                                        print("value: $value");
+                                                        thisDevice = value;
+                                                        var response = await http.post(
+                                                            "https://pizza.umea-ntig.se/rate",
+                                                            body: {
+                                                              'app_id' : value,
+                                                              'rating' : mood.toString()
+                                                            }
+                                                        );
+                                                        print("Response: ${response.body}");
+                                                    });
+                                                  }
+                                                });
+
+                                              }
+                                              await sendReq();
                                             },
                                             child: Text(
                                               'Skicka',
