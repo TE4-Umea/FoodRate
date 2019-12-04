@@ -66,7 +66,8 @@ class Layout extends State<MyTabs> with TickerProviderStateMixin {
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
       // If server returns an OK response, parse the JSON.
-      MenuData data = MenuData.fromJson(jsonResponse[0]);
+      MenuData data = MenuData.fromJson(jsonResponse);
+      print(data);
       return data;
     } else {
       // If that response was not OK, throw an error.

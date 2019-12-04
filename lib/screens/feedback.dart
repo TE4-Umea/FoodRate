@@ -350,11 +350,7 @@ class PageState extends State<Page> {
                                                         print("value: $value");
                                                         thisDevice = value;
                                                         var response = await http.post(
-                                                            "https://pizza.umea-ntig.se/rate",
-                                                            body: {
-                                                              'app_id' : value,
-                                                              'rating' : mood.toString()
-                                                            }
+                                                            "https://pizza.umea-ntig.se/rate?app_id=$value&rating=$mood",
                                                         );
                                                         print("Response: ${response.body}");
                                                     });
